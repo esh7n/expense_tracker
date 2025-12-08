@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo"><a href="index.html"><img src="lgrm.png" alt="Expense Tracker" class="logo-img"></a></h1>
+            <ul class="nav-links">
+                <li><a href="#" id="about-btn">About</a></li>
+                <li><a href="currency_converter.html">Currency Converter</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container content-container">
+        <h1>Currency Converter</h1>
+        <div class="currency-converter">
+            <h3>Convert Currencies</h3>
+            <div class="form-control">
+                <label for="convert-amount">Amount</label>
+                <input type="number" id="convert-amount" placeholder="Enter amount" />
+            </div>
+            <div class="form-control">
+                <label for="from-currency">From</label>
+                <select id="from-currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="AUD">AUD</option>
+                    <option value="SGD">SGD</option>
+                    <option value="INR">INR</option>
+                    <option value="BDT">BDT</option>
+                </select>
+            </div>
+            <div class="form-control">
+                <label for="to-currency">To</label>
+                <select id="to-currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="AUD">AUD</option>
+                    <option value="SGD">SGD</option>
+                    <option value="INR">INR</option>
+                    <option value="BDT">BDT</option>
+                </select>
+            </div>
+            <button class="btn" id="convert-btn">Convert</button>
+            <p id="conversion-result"></p>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <h2>Learn more about me</h2>
+            <a href="https://portfolio-cyan-theta-68.vercel.app/" target="_blank" class="btn modal-btn">Check Out</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <footer>
+        <p class="footer-slogan">Elevating your presence, byte by brilliant byte.</p>
+        <div class="social-icons">
+            <a href="https://github.com/esh7n" target="_blank"><img src="social_icon/icons8-github.svg" alt="GitHub"
+                    class="social-icon"></a>
+            <a href="https://t.me/eshan0617" target="_blank"><img src="social_icon/icons8-telegram.svg" alt="Telegram"
+                    class="social-icon"></a>
+            <a href="https://www.linkedin.com/in/mohammad-al-johany-b04849255/" target="_blank"><img
+                    src="social_icon/icons8-linkedin.svg" alt="LinkedIn" class="social-icon"></a>
+            <a href="#" target="_blank"><img src="social_icon/icons8-discord.svg" alt="Discord" class="social-icon"></a>
+            <a href="https://www.facebook.com/eshan.j.2024/" target="_blank"><img src="social_icon/icons8-facebook.svg"
+                    alt="Facebook" class="social-icon"></a>
+            <a href="https://x.com/esh7nn" target="_blank"><img src="social_icon/icons8-x.svg" alt="X"
+                    class="social-icon"></a>
+        </div>
+        <p>&copy; 2025 Mohammad Al Johany. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
