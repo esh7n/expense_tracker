@@ -1,10 +1,5 @@
 const balance = document.getElementById('balance');
-const money_plus = document.getElementById('money-plus');
-const money_minus = document.getElementById('money-minus');
 const list = document.getElementById('list');
-const form = document.getElementById('form');
-const text = document.getElementById('text');
-const amount = document.getElementById('amount');
 const chartCanvas = document.getElementById('myChart');
 const currencySelector = document.getElementById('currency');
 const convertAmountInput = document.getElementById('convert-amount');
@@ -21,7 +16,138 @@ const localStorageCurrency = localStorage.getItem('currency');
 let transactions = localStorageTransactions !== null ? localStorageTransactions : [];
 let currentCurrency = localStorageCurrency !== null ? localStorageCurrency : 'USD';
 
-// Add transaction
+// Global variable to track which button was pressed
+let currentTransactionType = null;
+
+// Show quick add input for income
+function showIncomeInput(e) {
+    e.preventDefault();
+    const incomeBtn = document.getElementById('income-btn');
+    const expenseBtn = document.getElementById('expense-btn');
+    const quickAdd = document.getElementById('quick-add');
+    const quickAmount = document.getElementById('quick-amount');
+    const quickText = document.getElementById('quick-text');
+
+    // Check if income button is already pressed (toggle behavior)
+    if (incomeBtn.classList.contains('pressed')) {
+        // Reset everything
+        incomeBtn.classList.remove('pressed');
+        expenseBtn.classList.remove('pressed');
+        quickAdd.style.display = 'none';
+        quickAmount.value = '';
+        quickText.value = '';
+        currentTransactionType = null;
+        return;
+    }
+
+    // Remove pressed class from expense button (mutually exclusive)
+    expenseBtn.classList.remove('pressed');
+
+    currentTransactionType = 'income';
+
+    // Add pressed class to button
+    incomeBtn.classList.add('pressed');
+
+    quickAdd.style.display = 'block';
+    // Clear any previous values
+    quickAmount.value = '';
+    quickText.value = '';
+    quickAmount.focus();
+}
+
+// Show quick add input for expense
+function showExpenseInput(e) {
+    e.preventDefault();
+    const expenseBtn = document.getElementById('expense-btn');
+    const incomeBtn = document.getElementById('income-btn');
+    const quickAdd = document.getElementById('quick-add');
+    const quickAmount = document.getElementById('quick-amount');
+    const quickText = document.getElementById('quick-text');
+
+    // Check if expense button is already pressed (toggle behavior)
+    if (expenseBtn.classList.contains('pressed')) {
+        // Reset everything
+        expenseBtn.classList.remove('pressed');
+        incomeBtn.classList.remove('pressed');
+        quickAdd.style.display = 'none';
+        quickAmount.value = '';
+        quickText.value = '';
+        currentTransactionType = null;
+        return;
+    }
+
+    // Remove pressed class from income button (mutually exclusive)
+    incomeBtn.classList.remove('pressed');
+
+    currentTransactionType = 'expense';
+
+    // Add pressed class to button
+    expenseBtn.classList.add('pressed');
+
+    quickAdd.style.display = 'block';
+    // Clear any previous values
+    quickAmount.value = '';
+    quickText.value = '';
+    quickAmount.focus();
+}
+
+// Add transaction using quick input
+function confirmAddTransaction(e) {
+    e.preventDefault();
+
+    const quickAmount = document.getElementById('quick-amount');
+    const quickText = document.getElementById('quick-text');
+    const amount = quickAmount.value.trim();
+    const text = quickText.value.trim();
+
+    if (amount === '' || isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+    }
+
+    if (text === '') {
+        alert('Please enter a description');
+        return;
+    }
+
+    const transaction = {
+        id: generateID(),
+        text: text,
+        amount: currentTransactionType === 'income' ? +amount : -amount,
+    };
+
+    transactions.push(transaction);
+
+    addTransactionDOM(transaction);
+    updateValues();
+    updateLocalStorage();
+
+    // Remove pressed class from buttons
+    document.getElementById('income-btn').classList.remove('pressed');
+    document.getElementById('expense-btn').classList.remove('pressed');
+
+    // Hide input and reset
+    document.getElementById('quick-add').style.display = 'none';
+    quickAmount.value = '';
+    quickText.value = '';
+    currentTransactionType = null;
+}
+
+// Cancel adding transaction
+function cancelAddTransaction(e) {
+    e.preventDefault();
+
+    // Remove pressed class from buttons
+    document.getElementById('income-btn').classList.remove('pressed');
+    document.getElementById('expense-btn').classList.remove('pressed');
+
+    document.getElementById('quick-add').style.display = 'none';
+    document.getElementById('quick-amount').value = '';
+    document.getElementById('quick-text').value = '';
+    currentTransactionType = null;
+}
+
+// Add transaction (legacy function for form submission)
 function addTransaction(e) {
     e.preventDefault();
 
@@ -87,8 +213,6 @@ function updateValues() {
     const currencySymbol = getCurrencySymbol(currentCurrency);
 
     if (balance) balance.innerText = `${currencySymbol}${total}`;
-    if (money_plus) money_plus.innerText = `${currencySymbol}${income}`;
-    if (money_minus) money_minus.innerText = `${currencySymbol}${expense}`;
 
     if (chartCanvas) updateChart(income, expense);
 }
@@ -284,7 +408,18 @@ function initializeApp() {
         initExpenseTracker();
         initHistoryToggle();
         initAboutModal();
-        if (form) form.addEventListener('submit', addTransaction);
+
+        // Add event listeners for income and expense buttons
+        const incomeBtn = document.getElementById('income-btn');
+        const expenseBtn = document.getElementById('expense-btn');
+        const confirmBtn = document.getElementById('confirm-add');
+        const cancelBtn = document.getElementById('cancel-add');
+
+        if (incomeBtn) incomeBtn.addEventListener('click', showIncomeInput);
+        if (expenseBtn) expenseBtn.addEventListener('click', showExpenseInput);
+        if (confirmBtn) confirmBtn.addEventListener('click', confirmAddTransaction);
+        if (cancelBtn) cancelBtn.addEventListener('click', cancelAddTransaction);
+
         if (currencySelector) currencySelector.addEventListener('change', (e) => {
             currentCurrency = e.target.value;
             updateLocalStorage();

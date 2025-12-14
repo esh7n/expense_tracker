@@ -41,16 +41,24 @@
         </div>
 
         <div class="inc-exp-container">
-            <div>
-                <h4>Income</h4>
-                <p id="money-plus" class="money plus">+$0.00</p>
-            </div>
-            <div>
-                <h4>Expense</h4>
-                <p id="money-minus" class="money minus">-$0.00</p>
+            <button class="btn income-btn" id="income-btn">Income</button>
+            <button class="btn expense-btn" id="expense-btn">Expense</button>
+        </div>
+
+
+        <!-- Quick Add Transaction -->
+        <div id="quick-add" class="quick-add" style="display: none;">
+            <div class="quick-add-input">
+                <input type="number" id="quick-amount" placeholder="Enter amount..." />
+                <input type="text" id="quick-text" placeholder="Enter description..." />
+                <div class="quick-add-buttons">
+                    <button class="btn btn-small" id="confirm-add">Add</button>
+                    <button class="btn btn-small btn-cancel" id="cancel-add">Cancel</button>
+                </div>
             </div>
         </div>
 
+        <!-- History - Always Visible -->
         <div class="history-section">
             <h3 class="history-header" id="history-header">
                 <span>History</span>
@@ -60,20 +68,6 @@
                 <!-- Transactions will be added here -->
             </ul>
         </div>
-
-        <h3>Add new transaction</h3>
-        <form id="form">
-            <div class="form-control">
-                <label for="text">Text</label>
-                <input type="text" id="text" placeholder="Enter text..." />
-            </div>
-            <div class="form-control">
-                <label for="amount">Amount <br />
-                    (negative - expense, positive - income)</label>
-                <input type="number" id="amount" placeholder="Enter amount..." />
-            </div>
-            <button class="btn">Add transaction</button>
-        </form>
 
         <!-- Removed Currency Converter UI elements -->
 
