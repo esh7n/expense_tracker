@@ -292,7 +292,9 @@ function updateChart(income, expense) {
 function initExpenseTracker() {
     if (list) list.innerHTML = ''; // Ensure list element exists
 
-    transactions.forEach(addTransactionDOM);
+    // Display only the last 6 transactions
+    const recentTransactions = transactions.slice(-6);
+    recentTransactions.forEach(addTransactionDOM);
     updateValues();
     updateChart(0, 0);
 
